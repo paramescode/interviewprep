@@ -11,7 +11,10 @@ public class CommandProcessorImpl implements CommandProcessor {
 
     public CommandProcessorImpl(){
         this.componentManager = new ComponentMangerImpl();
+        this.dependencyResolver = new DependencyResolver()
     }
+
+    DependencyResolver dependencyResolver = null;
 
     @Override
     public void process(String cmd) {
@@ -27,19 +30,28 @@ public class CommandProcessorImpl implements CommandProcessor {
 
             if(command.equals("DEPEND"))
             {
-                componentManager.addDependencies(parts);
+                //componentManager.addDependencies(parts);
+                String[] in = new String[parts.length -1];
+                for(int i=0; i < parts.length -1 ; i++){
+                    in[i] = parts[i+1];
+                }
+
+                dependencyResolver.depend(in);
             }
             else if(command.equals("INSTALL"))
             {
-                componentManager.install(parts[1]);
+                //componentManager.install(parts[1]);
+                dependencyResolver.install(parts[1], true);
             }
             else if(command.equals("REMOVE"))
             {
-                componentManager.remove(parts[1]);
+                //componentManager.remove(parts[1]);
+                dependencyResolver.remove(parts[1]);
             }
             else if(command.equals("LIST"))
             {
-                componentManager.list();
+                //componentManager.list();
+                dependencyResolver.list();
             }
 
 
